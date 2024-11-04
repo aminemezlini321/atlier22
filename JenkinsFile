@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Clone Repository') {
+            steps {
+                echo 'Cloning the GitHub repository...'
+                git branch: 'main',
+                    url: 'https://github.com/azizjaballah/timesheet-devops.git',
+                    credentialsId: 'github-token' // Use the ID you provided for your GitHub token
+            }
+        }
+        stage('Build') {
+            steps {
+                echo 'Building the project...'
+                sh 'echo "Build completed!"'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+                sh 'echo "Tests completed!"'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying the project...'
+                sh 'echo "Deployment completed!"'
+            }
+        }
+    }
+}
