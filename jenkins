@@ -1,0 +1,19 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone GitHub repo') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/aminemezlini321/atlier22.git'
+            }
+        }
+
+        stage('Run code') {
+            steps {
+                sh 'ls -la'
+                sh 'echo "Pipeline executed successfully"'
+            }
+        }
+    }
+}
