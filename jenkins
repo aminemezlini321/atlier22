@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools {
-        jdk 'jdk21'
+        jdk 'Java_home'
     }
     stages {
         stage('Debug Java') {
