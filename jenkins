@@ -1,34 +1,24 @@
 pipeline {
     agent any
-
     tools {
-        maven 'MAVEN'   // nom configuré dans Jenkins (Global Tool Configuration)
-        jdk 'JDK17'     // adapte si besoin
+        jdk 'jdk21'
     }
-
     stages {
-
-        stage('Checkout source code') {
+        stage('Debug Java') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/aminemezlini321/atlier22.git'
-                    // Pour repo privé, décommente la ligne suivante :
-                    // credentialsId: 'github-token'
+                sh 'which java'
+                sh 'java -version'
+                sh 'which javac'
+                sh 'javac -version'
             }
         }
 
-        stage('Clean & Compile') {
+        stage('Build') {
             steps {
-                sh 'mvn clean compile'
+                dir('atelier22') {
+                    sh 'mvn clean compile'
+                }
             }
-        }
-
-    post {
-        success {
-            echo '✅ Build Maven réussi'
-        }
-        failure {
-            echo '❌ Build Maven échoué'
         }
     }
 }
