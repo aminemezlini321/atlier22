@@ -1,27 +1,23 @@
 pipeline {
     agent any
 
-    tools {
-        jdk 'Java_home'
-        maven 'MAVEN'
-    }
-
     stages {
-
-        stage('Checkout') {
+        stage('Checkout GIT') {
             steps {
-                checkout scm
+                echo 'Pulling...'
+                git branch: 'master',
+                    url: 'https://github.com/aminemezlini321/atlier22.git'
             }
         }
 
-        stage('Build with Maven') {
+        stage('Testing maven') {
             steps {
-                sh 'mvn -v'
-                sh 'mvn clean compile'
+                sh 'mvn -version'
             }
         }
     }
 }
+
 
 
 
