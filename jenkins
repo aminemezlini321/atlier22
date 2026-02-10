@@ -1,19 +1,54 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'MAVEN'   // nom configuré dans Jenkins (Global Tool Configuration)
+        jdk 'JDK17'     // adapte si besoin
+    }
+
     stages {
-        stage('Clone GitHub repo') {
+
+        stage('Checkout source code') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/aminemezlini321/atlier22.git'
+                    url: 'https://github.com/TON_USERNAME/TON_REPO.git'
+                    // Pour repo privé, décommente la ligne suivante :
+                    // credentialsId: 'github-token'
             }
         }
 
-        stage('Run code') {
+        stage('Clean & Compile') {
             steps {
-                sh 'ls -la'
-                sh 'echo "Pipeline executed successfully"'
+                sh 'mvn clean compile'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+
+        stage('Package') {
+            steps {
+                sh 'mvn package'
+            }
+        }
+
+        stage('Run Application') {
+            steps {
+                sh 'java -jar target/*.jar'
             }
         }
     }
+
+    post {
+        success {
+            echo '✅ Build Maven réussi'
+        }
+        failure {
+            echo '❌ Build Maven échoué'
+        }
+    }
 }
+
