@@ -1,25 +1,34 @@
 pipeline {
     agent any
+
     tools {
         jdk 'Java_home'
+        maven 'MAVEN'
     }
+
     stages {
-        stage('Debug Java') {
+
+        stage('Checkout') {
             steps {
-                sh 'which java'
-                sh 'java -version'
-                sh 'which javac'
-                sh 'javac -version'
+                checkout scm
             }
         }
 
-        stage('Build') {
+        stage('Build with Maven') {
             steps {
-                dir('atelier22') {
-                    sh 'mvn clean compile'
-                }
+                sh 'mvn clean compile'
             }
         }
     }
+
+    post {
+        success {
+            echo '✅ Maven build SUCCESS'
+        }
+        failure {
+            echo '❌ Maven build FAILED'
+        }
+    }
 }
+
 
