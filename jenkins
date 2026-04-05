@@ -20,7 +20,7 @@ pipeline {
                 sh 'mvn compile'
             }
         }
-        tage('MVN SONARQUBE') {
+        stage('MVN SONARQUBE') {
             steps {
                 sh '''
                     mvn sonar:sonar \
