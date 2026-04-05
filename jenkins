@@ -10,9 +10,23 @@ pipeline {
             }
         }
 
-        stage('Testing maven') {
+        stage('MVN CLEAN') {
             steps {
-                sh 'mvn -version'
+                sh 'mvn clean'
+            }
+        }
+        stage('MVN COMPILE') {
+            steps {
+                sh 'mvn compile'
+            }
+        }
+        tage('MVN SONARQUBE') {
+            steps {
+                sh '''
+                    mvn sonar:sonar \
+                      -Dsonar.host.url=http://192.168.33.10:9000 \
+                      -Dsonar.login=321789
+                '''
             }
         }
     }
